@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Quick Start</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+  <style>
+    #mapid { height: 600px; }
+  </style>
+</head>
+<body>
+  <h2>Leaflet Quick Start Example</h2>
+  <div id="mapid"></div>
+  
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+  <script>
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    var marker = L.marker([51.5, -0.09]).addTo(mymap);
+    var circle = L.circle([51.508, -0.11], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 500
+    }).addTo(mymap);
+
+    var polygon = L.polygon([
+      [51.509, -0.08],
+      [51.503, -0.06],
+      [51.51, -0.047]
+    ]).addTo(mymap);
+
+    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+    circle.bindPopup("I am a circle.");
+    polygon.bindPopup("I am a polygon.");
+
+    function onMapClick(e) {
+      alert("You clicked the map at " + e.latlng);
+    }
+
+    mymap.on('click', onMapClick);
+  </script>
+</body>
+</html>

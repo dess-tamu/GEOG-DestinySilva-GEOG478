@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Custom Icons Example - Three Leaf Icons</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+    <style>
+        #mapid { height: 600px; }
+    </style>
+</head>
+<body>
+    <div id="mapid"></div>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+    <script>
+        var mymap = L.map('mapid').setView([30.6150, -96.3410], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(mymap);
+
+        // Red leaf icon
+        var iconRed = L.icon({
+            iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
+            shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+            iconSize:     [38, 95],
+            shadowSize:   [50, 64],
+            iconAnchor:   [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor:  [-3, -76]
+        });
+
+        L.marker([30.6150, -96.3410], {icon: iconRed}).addTo(mymap)
+            .bindPopup("This is the red leaf icon.");
+
+        // Blue leaf icon
+        var iconBlue = L.icon({
+            iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+            shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+            iconSize:     [38, 95],
+            shadowSize:   [50, 64],
+            iconAnchor:   [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor:  [-3, -76]
+        });
+
+        L.marker([30.6170, -96.3400], {icon: iconBlue}).addTo(mymap)
+            .bindPopup("This is the blue leaf icon.");
+
+        // Green leaf icon
+        var iconGreen = L.icon({
+            iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-orange.png',
+            shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+            iconSize:     [38, 95],
+            shadowSize:   [50, 64],
+            iconAnchor:   [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor:  [-3, -76]
+        });
+
+        L.marker([30.6160, -96.3430], {icon: iconGreen}).addTo(mymap)
+            .bindPopup("This is the green leaf icon.");
+    </script>
+</body>
+</html>

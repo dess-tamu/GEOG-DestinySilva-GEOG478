@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destiny's First Web Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map { height: 600px; width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Destiny's First Web Map</h1>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map
+    var map = L.map('map').setView([30.6155, -96.3422], 15); // Center on College Station
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Zoom to user location
+    map.locate({setView: true, maxZoom: 16});
+
+    // Circle around Kyle Field
+    L.circle([30.6103, -96.3410], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 200
+    }).addTo(map).bindPopup("Kyle Field");
+
+    // Custom icon for O&M
+    var leafIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/427/427735.png',
+      iconSize: [38, 38],
+      iconAnchor: [22, 38],
+      popupAnchor: [-3, -38]
+    });
+
+    L.marker([30.61786, -96.33601], { icon: leafIcon }).addTo(map)
+      .bindPopup("O&M Building");
+
+    // Custom icon for Academic Building
+    L.marker([30.6154, -96.3409], { icon: leafIcon }).addTo(map)
+      .bindPopup("Academic Building");
+
+    // Show lat/long on click
+    map.on('click', function(e) {
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent("Coordinates: " + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5))
+        .openOn(map);
+    });
+  </script>
+</body>
+</html>
