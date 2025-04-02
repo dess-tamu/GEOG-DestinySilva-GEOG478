@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js Grouped Bar Chart - Temperature Forecast</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .bar-high {
+            fill: steelblue;
+        }
+        .bar-low {
+            fill: orange;
+        }
+        text {
+            font-size: 12px;
+            text-anchor: middle;
+            fill: black;
+        }
+        .legend text {
+            font-size: 14px;
+            text-anchor: start;
+            fill: black;
+        }
+    </style>
+</head>
+<body>
+    <h2>College Station Weekly Temperature Forecast (°F)</h2>
+    <svg width="750" height="450"></svg>
+
+    <script>
+        const data = [
+            { day: "Sat 1", high: 82, low: 67 },
+            { day: "Sun", high: 81, low: 59 },
+            { day: "Mon", high: 81, low: 50 },
+            { day: "Tue", high: 70, low: 47 },
+            { day: "Wed", high: 77, low: 51 },
+            { day: "Thu", high: 78, low: 60 },
+            { day: "Fri", high: 79, low: 66 },
+            { day: "Sat 2", high: 80, low: 66 }
+        ];
+
+        const svg = d3.select("svg"),
+              margin = { top: 20, right: 30, bottom: 80, left: 50 },
+              width = +svg.attr("width") - margin.left - margin.right,
+              height = +svg.attr("height") - margin.top - margin.bottom,
+              g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x0 = d3.scaleBand()
+            .domain(data.map(d => d.day))
+            .range([0, width])
+            .padding(0.2);
+
+        const x1 = d3.scaleBand()
+            .domain(["high", "low"])
+            .range([0, x0.bandwidth()])
+            .padding(0.05);
+
+        const y = d3.scaleLinear()
+            .domain([40, d3.max(data, d => d.high)])
+            .nice()
+            .range([height, 0]);
+
+        g.append("g")
+            .selectAll("g")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", d => `translate(${x0(d.day)},0)`)
+            .each(function(d) {
+                const g = d3.select(this);
+                
+                g.selectAll("rect")
+                    .data([{ key: "high", value: d.high }, { key: "low", value: d.low }])
+                    .enter().append("rect")
+                    .attr("class", d => d.key === "high" ? "bar-high" : "bar-low")
+                    .attr("x", d => x1(d.key))
+                    .attr("y", d => y(d.value))
+                    .attr("width", x1.bandwidth())
+                    .attr("height", d => height - y(d.value));
+
+                // Adding labels above bars
+                g.selectAll("text")
+                    .data([{ key: "high", value: d.high }, { key: "low", value: d.low }])
+                    .enter().append("text")
+                    .attr("x", d => x1(d.key) + x1.bandwidth() / 2)
+                    .attr("y", d => y(d.value) - 5) // Position label slightly above bar
+                    .text(d => d.value);
+            });
+
+        g.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x0));
+
+        g.append("g")
+            .call(d3.axisLeft(y));
+
+        // Add Legend at the bottom
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width / 2 - 50}, ${height + 60})`);
+
+        legend.append("rect")
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", "steelblue");
+
+        legend.append("text")
+            .attr("x", 45)
+            .attr("y", 12)
+            .text("High Temp");
+
+        legend.append("rect")
+            .attr("x", 100)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", "orange");
+
+        legend.append("text")
+            .attr("x", 145)
+            .attr("y", 12)
+            .text("Low Temp");
+
+    </script>
+</body>
+</html>

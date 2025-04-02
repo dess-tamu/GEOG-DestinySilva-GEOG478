@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HighCharts Line Chart - Temperature Forecast</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <h2>College Station Weekly Temperature Forecast (°F)</h2>
+    <div id="chart-container" style="width: 700px; height: 400px; margin: auto;"></div>
+
+    <script>
+        Highcharts.chart('chart-container', {
+            chart: { type: 'line' },
+            title: { text: 'College Station Weekly Temperature Forecast' },
+            xAxis: { categories: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] },
+            yAxis: { title: { text: 'Temperature (°F)' } },
+            series: [{
+                name: 'High Temperature',
+                data: [82, 81, 81, 70, 77, 78, 79, 80],
+                color: 'steelblue'
+            }, {
+                name: 'Low Temperature',
+                data: [67, 59, 50, 47, 51, 60, 66, 66],
+                color: 'orange'
+            }]
+        });
+    </script>
+</body>
+</html>
